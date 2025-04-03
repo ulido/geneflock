@@ -1,0 +1,14 @@
+[project]
+name = "geneflock"
+version = "0.0.1"
+description = "Tool to display genes on chromosomes."
+dependencies = [
+    "geffa @ git+https://github.com/ulido/geffa",
+]
+requires-python = ">= 3.10"
+
+[project.scripts]
+
+[build-system]
+requires = ["flit_core>=3.4"]
+build-backend = "flit_core.buildapi"
