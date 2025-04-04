@@ -38,6 +38,7 @@ class Chromosome:
     
     def render(self, offset=0):
         s = f'<g transform="translate(0 {offset})" id="{self.id}">'
+        s += f'<text y="0.2" transform="scale(10000, 1)" class="chromosome-name">{self.seqreg.name}</text>'
         for gene in (feature for feature in self.seqreg.node_registry.values() if feature.type == "gene"):
             s += Gene(gene).render()
         s += f'<path d="M 0,0.5 h {self.extent}" class="chromosome"/></g>'
@@ -84,6 +85,11 @@ class Genome:
                 transform-box: fill-box;
                 transform-origin: 0 0;
                 transform: scale(1, 1);
+            }
+
+            .chromosome-name {
+                font-size: 0.25px;
+                font-family: sans-serif;
             }
 """
     
