@@ -88,11 +88,11 @@ DEFAULT_STYLE = """
 }
 
 .left-right {
-    fill: red;
+    fill: ##FORWARD_COLOR##;
 }
 
 .right-left {
-    fill: blue;
+    fill: ##REVERSE_COLOR##;
 }
 
 .chromosome-name {
@@ -104,7 +104,13 @@ DEFAULT_STYLE = """
 
 class Genome:
     """Class rendering a genome (given as a GFF file) as an SVG drawing."""
-    def __init__(self, gfffile: str | pathlib.Path | GffFile, filter_chromosomes=lambda c: c.extent > 100000):
+    def __init__(
+            self,
+            gfffile: str | pathlib.Path | GffFile,
+            filter_chromosomes=lambda c: c.extent > 100000,
+            forward_color: str = "red",
+            reverse_color: str = "blue",
+    ):
         if not isinstance(gfffile, GffFile):
             gfffile = GffFile(gfffile)
         self.gfffile = gfffile
@@ -113,6 +119,9 @@ class Genome:
         ) if len(seqreg.node_registry) > 0]
         self.chromosomes = [
             chromosome for chromosome in self.chromosomes if filter_chromosomes(chromosome)]
+        
+        self.forward_color = forward_color
+        self.reverse_color = reverse_color
 
     @property
     def height(self):
@@ -126,7 +135,11 @@ class Genome:
 
     def style(self):
         """CSS styles of the rendered SVG file."""
-        return DEFAULT_STYLE
+        return (
+            DEFAULT_STYLE
+            .replace("##FORWARD_COLOR##", self.forward_color)
+            .replace("##REVERSE_COLOR##", self.reverse_color)
+        )
 
     def render(self):
         """Render the genome with all chromosomes contained therein as a SVG file."""

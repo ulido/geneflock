@@ -8,9 +8,9 @@ from .geneflock import Genome
 
 class HighlightIDListGenome(Genome):
     """Subclass of Genome, allowing one to specify a list of highlighted genes."""
-    def __init__(self, idlist: list[str], *args, highlightcolor: str = "green", **kwargs):
+    def __init__(self, idlist: list[str], *args, highlight_color: str = "green", **kwargs):
         self.idlist = idlist
-        self.highlightcolor = highlightcolor
+        self.highlight_color = highlight_color
         super().__init__(*args, **kwargs)
 
     def style(self):
@@ -18,5 +18,5 @@ class HighlightIDListGenome(Genome):
 
         highlightlist = ','.join(["#" + entry.replace(".", "_")
                                  for entry in self.idlist])
-        styles += highlightlist + f"{{ fill: {self.highlightcolor}; }}"
+        styles += highlightlist + f"{{ fill: {self.highlight_color}; }}"
         return styles
