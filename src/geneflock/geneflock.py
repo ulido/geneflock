@@ -53,14 +53,14 @@ class Chromosome:
             s += Gene(gene).render()
         s += f'<path d="M 0,0.5 h {self.extent}" class="chromosome"/></g>'
         return s
-    
+
 class Genome:
-    def __init__(self, gfffile: str | pathlib.Path | GffFile, filter_chromosomes=lambda c: True):
+    def __init__(self, gfffile: str | pathlib.Path | GffFile, filter_chromosomes=lambda c: c.extent > 100000):
         if not isinstance(gfffile, GffFile):
             gfffile = GffFile(gfffile)
         self.gfffile = gfffile
 
-        self.chromosomes = [Chromosome(seqreg) for seqreg in self.gfffile.sequence_regions.values()]
+        self.chromosomes = [Chromosome(seqreg) for seqreg in self.gfffile.sequence_regions.values() if len(seqreg.node_registry) > 0]
         self.chromosomes = [chromosome for chromosome in self.chromosomes if filter_chromosomes(chromosome)]
 
     @property
