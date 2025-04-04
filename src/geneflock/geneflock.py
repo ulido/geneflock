@@ -63,6 +63,10 @@ class Genome:
     
     def style(self):
         return """
+            .background {
+                fill: white;
+            }
+
             .chromosome {
                 stroke: black;
                 stroke-width: 0.1px;
@@ -96,6 +100,7 @@ class Genome:
     def render(self):
         s = f'<svg viewBox="0 0 {self.width} {self.height}" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" height="{self.height * 100}" width="{self.width / 100}">'
         s += f"<style>{self.style()}</style>"
+        s += '<rect height="100%" width="100%" class="background"/>'
         for offset, chromosome in enumerate(self.chromosomes):
             s += chromosome.render(offset)
         s += "</svg>"
