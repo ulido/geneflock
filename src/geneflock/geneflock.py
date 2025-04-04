@@ -22,7 +22,17 @@ class Gene:
         raise ValueError("GeneNode has no strand!")
 
     def render(self):
-        return f'<rect x="{self.genenode.start-1}" y="0.5" width="{self.extent}" class="gene {self.direction}" id="{self.id}"/>'
+        d = -1 if self.genenode.strand == "+" else 1
+        f = (1-d)*0.5
+        return f'''
+        <rect
+            x="{self.genenode.start-1}"
+            y="0.5"
+            width="{self.extent}"
+            height="0.25"
+            transform="matrix(1, 0, 0, {d}, 0, {f})"
+            class="gene {self.direction}"
+            id="{self.id}"/>'''
 
 class Chromosome:
     def __init__(self, seqreg: SequenceRegion):
@@ -79,16 +89,10 @@ class Genome:
 
             .left-right {
                 fill: red;
-                transform-box: fill-box;
-                transform-origin: 0 0;
-                transform: scale(1, -1);
             }
 
             .right-left {
                 fill: blue;
-                transform-box: fill-box;
-                transform-origin: 0 0;
-                transform: scale(1, 1);
             }
 
             .chromosome-name {
